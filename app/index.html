@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>HeatShield: heat-strain early warning for outdoor workers</title>
+  <meta name="description" content="HeatShield warns outdoor workers before dangerous heat strain, in their own language, and tracks the weekly heat load linked to kidney injury.">
+  <meta name="theme-color" content="#FFFFFF">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700&family=Barlow+Semi+Condensed:wght@600;700;800&family=Noto+Sans+Arabic:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body data-tab="crew">
+  <header class="topbar">
+    <div class="brand" id="brand">HeatShield</div>
+    <div class="where"><strong id="siteName">Abu Dhabi</strong><span id="clock">--:--</span></div>
+    <select id="lang" aria-label="Language"></select>
+    <button id="demoBtn" class="ghost" type="button">Demo controls</button>
+  </header>
+  <p id="demoNote" class="note" dir="ltr"></p>
+
+  <main class="layout">
+    <section id="worker" class="panel worker" data-tier="green" aria-live="polite">
+      <div class="plate" id="sign"></div>
+      <div class="status">
+        <h1 id="statusTitle">Safe to work</h1>
+        <p id="statusBody"></p>
+        <p id="countdown" class="countdown"></p>
+      </div>
+      <dl class="readings">
+        <div><dt id="lblBody">Body heat (estimate)</dt><dd id="valBody">--</dd></div>
+        <div><dt id="lblHeart">Heart rate</dt><dd id="valHr">--</dd></div>
+        <div><dt id="lblSite">Site heat (WBGT)</dt><dd id="valWbgt">--</dd></div>
+      </dl>
+      <div class="chartbox" id="chart" dir="ltr"></div>
+      <p class="legend" dir="ltr"><span>Estimate</span><span class="l-band">Safety margin</span><span class="l-work">If you keep working</span><span class="l-rest">If you rest now</span></p>
+      <div class="actions">
+        <button id="btnWater" class="act" type="button"></button>
+        <button id="btnRest" class="act" type="button"></button>
+        <button id="btnUrine" class="act" type="button"></button>
+      </div>
+      <p id="waterNote" class="muted"></p>
+    </section>
+
+    <div class="sidecol">
+      <nav class="tabs" role="tablist" aria-label="Screens">
+        <button role="tab" data-tab="worker" id="tabWorker" type="button">Worker</button>
+        <button role="tab" data-tab="crew" id="tabCrew" type="button">Crew</button>
+        <button role="tab" data-tab="week" id="tabWeek" type="button">Week</button>
+        <button role="tab" data-tab="about" id="tabAbout" type="button">About</button>
+      </nav>
+
+      <section id="crew" class="panel side" dir="ltr" aria-labelledby="crewTitle">
+        <h2 id="crewTitle">Crew on site</h2>
+        <p class="lead">Who needs a break, and when. Supervisors see each worker's sign and countdown, never their body readings.</p>
+        <div class="sitehead">
+          <div class="stat"><span class="v" id="siteWbgt">--</span><span class="k">WBGT in the sun now</span></div>
+          <div class="stat"><span class="flag" id="siteCat"></span><span class="k">US Army TB MED 507 heat category</span></div>
+        </div>
+        <p id="breakBanner" class="breakbanner" hidden>Midday break in force (UAE rule, 15 Jun to 15 Sep, 12:30 to 15:00). Outdoor work is paused.</p>
+        <div id="wbgtStrip"></div>
+        <div class="rotation" id="rotation"></div>
+        <ul class="crew" id="crewList"></ul>
+        <p class="privacy">Body heat and heart rate stay on each worker's phone. Only the sign, the countdown and rest status are shared.</p>
+      </section>
+
+      <section id="week" class="panel side" dir="ltr" hidden aria-labelledby="weekTitle">
+        <h2 id="weekTitle">Your heat load this week</h2>
+        <p class="lead">Many hard heat days in a row can damage the kidneys. HeatShield counts them and tells you when to get checked.</p>
+        <div class="days" id="days"></div>
+        <p class="example" id="exampleNote"></p>
+        <div class="kv" id="todayKv"></div>
+        <div class="alertbox" id="kidneyBox" hidden>
+          <h3>Get a kidney check</h3>
+          <p id="kidneyText"></p>
+          <button class="btn" id="btnReferral" type="button">Share referral note</button>
+        </div>
+        <p class="privacy">This weekly score is a research index, not a diagnosis. Thresholds are set with the clinical lead and tested in the HeatShield field study.</p>
+      </section>
+
+      <section id="about" class="panel side about" dir="ltr" hidden aria-labelledby="aboutTitle">
+        <h2 id="aboutTitle">How HeatShield works</h2>
+        <ol>
+          <li>A standard Bluetooth heart-rate band sends one reading per minute to the phone.</li>
+          <li>The phone estimates core body temperature from the heart-rate trend with a published Kalman filter (Buller et al., 2013).</li>
+          <li>A safety margin from conformal prediction is added, and alerts use the top of that margin so a hot worker is not missed.</li>
+          <li>Site weather is turned into WBGT heat stress with the Liljegren model, using Open-Meteo data.</li>
+          <li>The phone projects the next hour two ways, keep working or rest now, and counts the minutes until danger.</li>
+          <li>Each shift adds to a weekly heat-load record; repeated hard days trigger a kidney-check prompt.</li>
+        </ol>
+        <h3>Model card</h3>
+        <table id="modelCard"></table>
+        <h3>Privacy</h3>
+        <ul>
+          <li>All estimates run on the worker's phone. Nothing leaves it unless a crew is linked.</li>
+          <li>Supervisors see the sign, the countdown and rest status only.</li>
+          <li>No use for discipline, hiring or insurance decisions.</li>
+          <li>Workers can stop monitoring at any time and delete their data from the phone.</li>
+        </ul>
+        <h3>Limits</h3>
+        <ul>
+          <li>HeatShield is not a medical device. It does not diagnose heat illness or kidney disease.</li>
+          <li>The heart-rate estimator was developed on soldiers and athletes; it must be validated in outdoor workers.</li>
+          <li>Fever, medicines such as beta-blockers, dehydration and anxiety change heart rate and can mislead the estimate.</li>
+          <li>Anyone who feels dizzy, confused, sick or stops sweating needs first aid now, whatever the app shows.</li>
+        </ul>
+        <h3>Sources</h3>
+        <ul class="sources">
+          <li>Buller MJ et al. Estimation of human core temperature from sequential heart rate observations. Physiol Meas 2013.</li>
+          <li>Liljegren JC et al. Modeling the wet bulb globe temperature using standard meteorological measurements. J Occup Environ Hyg 2008.</li>
+          <li>Moran DS et al. A physiological strain index to evaluate heat stress. Am J Physiol 1998.</li>
+          <li>Weather: <a href="https://open-meteo.com/" rel="noopener">Open-Meteo</a> forecast and historical APIs (CC BY 4.0).</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <dialog id="demoDlg" aria-labelledby="demoTitle">
+    <h2 id="demoTitle">Demo controls</h2>
+    <fieldset class="seg" id="srcSeg"><legend class="field">Heart-rate source</legend>
+      <label><input type="radio" name="src" value="sim"><span>Simulated worker</span></label>
+      <label><input type="radio" name="src" value="ble"><span>Bluetooth band</span></label>
+    </fieldset>
+    <div class="field"><label for="site">Site</label><select id="site"></select></div>
+    <fieldset class="seg"><legend class="field">Weather</legend>
+      <label><input type="radio" name="wx" value="replay"><span>Replay a real summer day</span></label>
+      <label><input type="radio" name="wx" value="live"><span>Live forecast</span></label>
+    </fieldset>
+    <div class="field"><label for="replayDate">Replay date</label><input type="date" id="replayDate"></div>
+    <div class="field"><label for="startHour">Shift starts at</label><select id="startHour"></select></div>
+    <fieldset class="seg"><legend class="field">Speed</legend>
+      <label><input type="radio" name="speed" value="1"><span>Real time</span></label>
+      <label><input type="radio" name="speed" value="10"><span>10×</span></label>
+      <label><input type="radio" name="speed" value="30"><span>30×</span></label>
+      <label><input type="radio" name="speed" value="60"><span>60×</span></label>
+    </fieldset>
+    <fieldset class="seg"><legend class="field">Your work</legend>
+      <label><input type="radio" name="level" value="light"><span>Light</span></label>
+      <label><input type="radio" name="level" value="moderate"><span>Moderate</span></label>
+      <label><input type="radio" name="level" value="heavy"><span>Heavy</span></label>
+    </fieldset>
+    <fieldset class="seg"><legend class="field">Used to the heat?</legend>
+      <label><input type="radio" name="accl" value="yes"><span>Yes, 2 weeks or more</span></label>
+      <label><input type="radio" name="accl" value="no"><span>No, new arrival</span></label>
+    </fieldset>
+    <div class="field"><label><input type="checkbox" id="exampleWeek"> Show an example week of history</label></div>
+    <div class="field"><label><input type="checkbox" id="voiceOn"> Spoken alerts</label></div>
+    <p id="bleStatus" class="example"></p>
+    <div class="row">
+      <button class="btn secondary" id="btnReset" type="button">Delete all data</button>
+      <button class="btn secondary" id="btnRestart" type="button">Restart the shift</button>
+      <button class="btn secondary" id="btnSkip" type="button">Skip ahead 30 min</button>
+      <button class="btn" id="btnCloseDemo" type="button">Done</button>
+    </div>
+  </dialog>
+
+  <dialog id="urineDlg" aria-labelledby="urineTitle">
+    <h2 id="urineTitle">Urine colour</h2>
+    <p id="urineQ"></p>
+    <div class="swatches" id="swatches"></div>
+    <p class="example">Approximate colours of the 8-step Armstrong chart. Use the printed chart on site when you can.</p>
+    <div class="row"><button class="btn secondary" id="urineCancel" type="button">Cancel</button></div>
+  </dialog>
+
+  <dialog id="consentDlg" class="consent" aria-labelledby="consentTitle">
+    <h2 id="consentTitle">Before you start</h2>
+    <ul>
+      <li>HeatShield reads your heart rate from a band and the weather for your site.</li>
+      <li>Your body heat estimate and heart rate stay on this phone.</li>
+      <li>Your supervisor sees only your sign colour, the minutes until danger and whether you are resting.</li>
+      <li>This is not a medical device. If you feel dizzy, sick or confused, stop and get help.</li>
+      <li>You can stop monitoring and delete your data at any time.</li>
+    </ul>
+    <div class="row"><button class="btn" id="consentOk" type="button">I agree, start</button></div>
+  </dialog>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

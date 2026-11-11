@@ -1,0 +1,94 @@
+{
+  "dataset": "Buono heat-tolerance dataset (Mendeley, CC BY 4.0)",
+  "synthetic": false,
+  "subjects": 65,
+  "minutes": 13000,
+  "burn_in_min": 5,
+  "ct0_mode": "default",
+  "agreement_all": {
+    "n": 13000,
+    "bias": 0.02825103874050792,
+    "sd": 0.4571705567232615,
+    "rmse": 0.458025066806605,
+    "mae": 0.35541230908556437,
+    "loa_low": -0.8678032524370846,
+    "loa_high": 0.9243053299181004
+  },
+  "agreement_by_condition": {
+    "heat": {
+      "n": 5652,
+      "bias": 0.05460156451569688,
+      "sd": 0.4663257004712149,
+      "rmse": 0.46947046227822237,
+      "mae": 0.34871422826677057,
+      "loa_low": -0.8593968084078843,
+      "loa_high": 0.9685999374392781
+    },
+    "neutral": {
+      "n": 7348,
+      "bias": 0.007982506938470886,
+      "sd": 0.448982527348116,
+      "rmse": 0.4490229350969832,
+      "mae": 0.3605643984687737,
+      "loa_low": -0.8720232466638365,
+      "loa_high": 0.8879882605407783
+    }
+  },
+  "conformal_eval": {
+    "target_coverage": 0.9,
+    "mean_coverage": 0.9317804340671638,
+    "min_coverage": 0.8419737663960025,
+    "mean_margin_c": 0.5774918167971648,
+    "coverage_when_true_ge_38_5": 0.8669877100020646,
+    "splits": 50
+  },
+  "detection": {
+    "estimate_ge_38_5": {
+      "threshold": 38.5,
+      "positives": 1045,
+      "sensitivity": 0.6574162679425838,
+      "specificity": 0.8729401923881221,
+      "ppv": 0.3114233907524932
+    },
+    "upper_bound_ge_38_5": {
+      "threshold": 38.5,
+      "positives": 1045,
+      "sensitivity": 0.9483253588516747,
+      "specificity": 0.5711417816813049,
+      "ppv": 0.16198103955541027
+    },
+    "estimate_ge_38_0": {
+      "threshold": 38.0,
+      "positives": 6025,
+      "sensitivity": 0.6798340248962655,
+      "specificity": 0.7929749103942653,
+      "ppv": 0.7393501805054151
+    },
+    "upper_bound_ge_38_0": {
+      "threshold": 38.0,
+      "positives": 6025,
+      "sensitivity": 0.9820746887966805,
+      "specificity": 0.24874551971326164,
+      "ppv": 0.5303396970511787
+    }
+  },
+  "forecast_fit": {
+    "drift_bpm_per_min": 0.0,
+    "tau_work_min": 4.0,
+    "note": "fitted on the same subjects; cross-validate before reporting"
+  },
+  "forecast_eval": {
+    "+15min": {
+      "mae": 0.3439763503373661,
+      "bias": 0.03668157174356787,
+      "upper_coverage": 0.984137475214805,
+      "n": 1513
+    },
+    "+30min": {
+      "mae": 0.36417393918541563,
+      "bias": 0.08489588215636278,
+      "upper_coverage": 0.9907468605419696,
+      "n": 1513
+    }
+  }
+}

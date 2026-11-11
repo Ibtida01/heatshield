@@ -1,0 +1,75 @@
+{
+  "dataset": "Buono HTT, start from measured temperature",
+  "synthetic": false,
+  "subjects": 65,
+  "minutes": 13000,
+  "burn_in_min": 5,
+  "ct0_mode": "measured",
+  "agreement_all": {
+    "n": 13000,
+    "bias": 0.06466049329755494,
+    "sd": 0.42601655897083296,
+    "rmse": 0.43087948098424705,
+    "mae": 0.32066794576180807,
+    "loa_low": -0.7703319622852777,
+    "loa_high": 0.8996529488803876
+  },
+  "agreement_by_condition": {
+    "heat": {
+      "n": 5652,
+      "bias": 0.08925378398042871,
+      "sd": 0.4252864143742279,
+      "rmse": 0.4345144087413835,
+      "mae": 0.30338444870144643,
+      "loa_low": -0.7443075881930579,
+      "loa_high": 0.9228151561539153
+    },
+    "neutral": {
+      "n": 7348,
+      "bias": 0.04574360721432107,
+      "sd": 0.42564035351587787,
+      "rmse": 0.4280625333907065,
+      "mae": 0.3339622197663215,
+      "loa_low": -0.7885114856767996,
+      "loa_high": 0.8799987001054417
+    }
+  },
+  "conformal_eval": {
+    "target_coverage": 0.9,
+    "mean_coverage": 0.9049500530068947,
+    "min_coverage": 0.8152641277641277,
+    "mean_margin_c": 0.42466665768752465,
+    "coverage_when_true_ge_38_5": 0.752367796129915,
+    "splits": 50
+  },
+  "detection": {
+    "estimate_ge_38_5": {
+      "threshold": 38.5,
+      "positives": 1045,
+      "sensitivity": 0.7052631578947368,
+      "specificity": 0.8644081974069427,
+      "ppv": 0.31255301102629346
+    },
+    "upper_bound_ge_38_5": {
+      "threshold": 38.5,
+      "positives": 1045,
+      "sensitivity": 0.8373205741626795,
+      "specificity": 0.7619406106231702,
+      "ppv": 0.23515184090298308
+    },
+    "estimate_ge_38_0": {
+      "threshold": 38.0,
+      "positives": 6025,
+      "sensitivity": 0.735103734439834,
+      "specificity": 0.7807885304659499,
+      "ppv": 0.7433702584759987
+    },
+    "upper_bound_ge_38_0": {
+      "threshold": 38.0,
+      "positives": 6025,
+      "sensitivity": 0.980746887966805,
+      "specificity": 0.23913978494623656,
+      "ppv": 0.5268366619115549
+    }
+  }
+}
