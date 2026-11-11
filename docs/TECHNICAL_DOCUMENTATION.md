@@ -1,13 +1,11 @@
 # HeatShield: technical documentation
 
 Future Health Digital Innovation Challenge 2026. Focus area: Wellbeing. Challenge statement: climate-resilient worker health.
-Team: <names, roles, countries>. Contact: <email>. Prototype: <https://you.github.io/heatshield/app/>. Code: <GitHub link>.
-
-> Replace every `<...>` and every line marked **FILL** before submitting. Numbers marked FILL come from `research/results/metrics.md` after you run the validation on the real dataset.
+Team: <Team_LoneWolf,Bangladesh>. Contact: <ibtida01.ahmed@gmail.com>. Prototype: <https://ibtida01.github.io/heatshield/app/>. Code: <[GitHub link](https://github.com/Ibtida01/heatshield.git)>.
 
 ## 1. Problem
 
-Outdoor workers in the Gulf face extreme heat for months each year. Fixed rules such as the UAE midday break (12:30 to 15:00, 15 June to 15 September) protect the hottest hours. However, heat strain depends on the person, the task and the weather on that day, and it continues outside those hours. Repeated days of heat strain and dehydration are linked to kidney injury, and nephrologists in Dhaka and Kathmandu report returning migrant workers with kidney disease that they attribute to heat. Supervisors have no early, personal signal; workers often do not read English or Arabic.
+Outdoor workers in the Gulf face extreme heat for months each year. Fixed rules such as the UAE midday break (12:30 to 15:00, 15 June to 15 September) protect the hottest hours. However, heat strain depends on the person, the task and the weather on that day, and it continues outside those hours. Repeated days of heat strain and dehydration are linked to kidney injury, and nephrologists in Dhaka report returning migrant workers with kidney disease that they attribute to heat. Supervisors have no early, personal signal; workers often do not read English or Arabic.
 
 ## 2. Solution
 
@@ -107,10 +105,10 @@ Figures: `research/results/bland_altman.png`, `traces.png`, `error_by_bin.png`. 
 - Alerting on the upper bound raises false alarms (specificity 57%, PPV 16% at 38.5 °C); alarm fatigue must be measured in the pilot.
 - The forecast is a v0 physiology-based projection with fitted drift; it is not yet validated in the field.
 - The kidney heat-load index and its thresholds are research hypotheses, not diagnostic criteria.
-- Translations other than Bengali need native-speaker review (**FILL** reviewers).
+- Translations other than Bengali need native-speaker review (I am Bangladeshi myself,I can only cover Bengali and English)
 - Simulated workers in the demo use the same heart-rate relation as the estimator, so on-screen accuracy in demo mode is optimistic.
 
-## 9. Responsible AI, safety and data governance
+## 9.Safety and data governance
 
 - **Safety first:** alerts use the upper bound; rules (not a language model) make every alert; symptoms override the app; "not a medical device" is shown in the app.
 - **Privacy by design:** processing on the device; supervisors receive sign colour, countdown and rest status only; no location tracking of workers; data deletable by the worker.
@@ -118,7 +116,7 @@ Figures: `research/results/bland_altman.png`, `traces.png`, `error_by_bin.png`. 
 - **No misuse:** the terms ban use of HeatShield data for discipline, hiring, pay or insurance decisions.
 - **Transparency:** a model card in the app states the calibration source, coverage and limits.
 - **Fairness:** thresholds differ for new arrivals; validation will report results by age group, body size and acclimatisation.
-- **Regulatory path:** wellness and occupational-safety tool now; any diagnostic claim would need medical-device approval (DoH Abu Dhabi), which we will not make without clinical evidence.
+- **Regulatory path:** wellness and occupational-safety tool now,any diagnostic claim would need medical-device approval (DoH Abu Dhabi), which we will not make without clinical evidence.
 
 ## 10. Scalability and deployment
 
@@ -127,18 +125,14 @@ Figures: `research/results/bland_altman.png`, `traces.png`, `error_by_bin.png`. 
 - Offline-first: works with patchy connectivity on site.
 - Next step: a crew sync service (supervisor view across phones) and integration with contractor HSE dashboards.
 
-## 11. Commercial path and pilot
+## 11.Pilot
 
-- **Customers:** contractors and facility-management firms (per-worker subscription), occupational-health providers, insurers' prevention programmes.
-- **Pilot:** one site, 30 to 50 workers, 8 weeks in summer 2027, with a contractor in Abu Dhabi and a parallel site in Dhaka. Outcomes: alerts per worker, rest compliance, heat-illness first-aid events, worker acceptance, and pre/post-shift urine and creatinine in a consenting subset.
-- **Why us:** a Bangladeshi team with links to the communities most of these workers come from, and a clinical partner **FILL**.
+- **I want to keep this service free as the workers are not solvent and won't be interested to use this service if paid subscription is applied,rather I want their safety**
+- **Pilot:** one site,30 to 50 workers,8 weeks in summer 2027, with a contractor in Dhaka.Outcomes: alerts per worker, rest compliance, heat-illness first-aid events, worker acceptance, and pre/post-shift urine and creatinine in a consenting subset.(I can't afford Abu Dhabi site inspection)
+- **Why us:** a Bangladeshi team with links to the communities most of these workers come from, and a clinical partner Professor Dr Shamimul Masud Ahmed,MMC
+(mailto:shamimul.mahmed@gmail.com)
 
-## 12. Maturity at the start and what we built
-
-- **Before the challenge (before <date>):** the idea; no code.
-- **Built during the challenge (<dates>):** the research package (estimator, WBGT, PSI, conformal, forecast, ledger, tests), the validation pipeline, the web app (worker, crew, week, about), six-language alerts, documentation. **FILL**: list any tools or AI assistants used, as required by the rules.
-
-## 13. References
+## 12. References
 
 1. Buller MJ, Tharion WJ, Cheuvront SN, et al. Estimation of human core temperature from sequential heart rate observations. Physiol Meas. 2013;34:781–798.
 2. Liljegren JC, Carhart RA, Lawday P, Tschopp S, Sharp R. Modeling the wet bulb globe temperature using standard meteorological measurements. J Occup Environ Hyg. 2008;5:645–655.
