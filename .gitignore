@@ -3,3 +3,8 @@ __pycache__/
 research/data/
 *.pyc
 .DS_Store
+docs/DEMO_SCRIPT.md
+docs/PITCH_OUTLINE.md
+docs/README_for_me.md
+docs/SUBMISSION_CHECKLIST.md
+docs/TRANSLATION_CHECK.md
